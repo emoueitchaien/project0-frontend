@@ -14,7 +14,7 @@ export default class Products_info extends Component {
   }
 
   // componentDidMount(){
-
+  //   axios.get("http://localhost:5000/products")
   // }
 
   onSubmit=()=>

@@ -1,5 +1,6 @@
 import React from 'react';
 import {Table,TableCell,TableHead,TableRow,TableBody} from "@material-ui/core";
+import Button from '@material-ui/core/Button';
 
 const columns=[
     {id:"Products", label: "Products Name"},
@@ -44,6 +45,9 @@ export default function ProductTable() {
                   <TableCell key={rows.PricePerBag}>
                   {rows.PricePerBag}
                  </TableCell>
+                 <Button variant="contained" color="primary"  >
+                Delete
+                </Button>
                  </TableRow>
                 ))}
             </TableBody>
