@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Products from "./Products";
-import axios from 'axios'
+import axios from 'axios';
+import ProductTable from "./ProductTable";
+import { StylesProvider, Container } from "@material-ui/core";
 
 export default class Products_info extends Component {
   constructor(props) {
@@ -9,13 +11,26 @@ export default class Products_info extends Component {
       Product:"",
       PricePerKg: 0,
       PricePerBag: 0,
-      Available: 0
+      Available: 0,
+      ProductsTable:[],
     };
   }
 
-  // componentDidMount(){
-  //   axios.get("http://localhost:5000/products")
-  // }
+  componentDidMount(){
+    axios.get("http://localhost:5000/products/")
+    .then(res=>this.setState({ProductsTable:res.data}))
+    .catch(err=>console.log(err));
+    
+  }
+
+   onDelete=(id)=>{
+    axios.delete("http://localhost/products/delete/"+id)
+    .then(res=>console.log(res.data))
+    .catch(err=>console.log(err));
+    this.setState({
+      ProductsTable:this.state.ProductsTable.filter(el=>el._id!==id)
+    })
+}
 
   onSubmit=()=>
   {
@@ -29,7 +44,8 @@ export default class Products_info extends Component {
      .then(res=>console.log(res.data))
      .catch(err=>console.log("Error::"+err));
 
-     console.log(Products);
+    //  console.log(Products);
+    //  console.log(this.state.ProductsTable);
      
   }
 
@@ -41,7 +57,17 @@ export default class Products_info extends Component {
     return (
       <div>
         <Products values={this.state} handleChange={this.handleChange} onSubmit={this.onSubmit} />
+        <Container style={Styles.table}>
+        <ProductTable Tableinfo={this.state.ProductsTable} onDelete={this.onDelete}/>
+      </Container>
       </div>
     );
+  }
+}
+
+const Styles={
+  table:{
+     marginLeft:"4%",
+     marginTop:"4%"
   }
 }

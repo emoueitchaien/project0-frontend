@@ -5,7 +5,6 @@ import {
   CssBaseline
 } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import ProductTable from "./ProductTable";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -66,10 +65,6 @@ const Products = (props) => {
             Add Product
           </Button>
       </div> 
-
-      <div className={classes.position}>
-        <ProductTable />
-      </div>
     </CssBaseline>
   );
 };
