@@ -4,8 +4,8 @@ import {
   Button,
   CssBaseline
 } from "@material-ui/core";
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import ProductTable from "./ProductTable";
+import { makeStyles } from "@material-ui/core/styles";
+import SearchTable from "./SearchTable";
 import SearchIcon from "@material-ui/icons/Search";
 
 const useStyles = makeStyles(theme => ({
@@ -64,7 +64,7 @@ const Search = () => {
           </Button>
       </div>
       <div className={classes.position}>
-        <ProductTable />
+        <SearchTable />
       </div>
     </CssBaseline>
   );
