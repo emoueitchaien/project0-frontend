@@ -1,5 +1,5 @@
 import React,{Component} from "react";
-import { CssBaseline } from "@material-ui/core";
+import { CssBaseline,Button } from "@material-ui/core";
 import axios from 'axios';
 
 // import Inputs from "./Inputs";
@@ -111,6 +111,7 @@ class Exports extends Component {
             handleQChange={this.handleQChange}
             handleChange={this.handleChange}
           />
+          <Button style={{marginTop:50}} color="default" variant="contained">Print</Button>
         </div>
       </CssBaseline>
     );
