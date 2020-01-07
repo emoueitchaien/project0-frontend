@@ -29,7 +29,7 @@ class Imports extends Component {
   }
   //handling Data events ------------------------------------------//
   componentDidMount = () => {
-    axios.get("http://localhost:5000/products").then((res) => {
+    axios.get("https://mgmtsys.herokuapp.com/products").then((res) => {
       this.setState({ products: res.data });
     });
   };
@@ -44,7 +44,7 @@ class Imports extends Component {
     };
 
     axios
-      .post("http://localhost:5000/imports/add", newData)
+      .post("https://mgmtsys.herokuapp.com/imports/add", newData)
       .then(() => alert("Data is added!"))
       .catch((err) => alert(err));
 
@@ -60,7 +60,7 @@ class Imports extends Component {
       Available: updateAvailable
     };
     axios.put(
-      "http://localhost:5000/products/update/" + this.state.selectedProduct._id,
+      "https://mgmtsys.herokuapp.com/products/update/" + this.state.selectedProduct._id,
       updateData
     ).then(()=>{this.handleReset()});
   };
@@ -76,7 +76,7 @@ class Imports extends Component {
       radio: "",
       rate: 0
     });
-    axios.get("http://localhost:5000/products").then((res) => {
+    axios.get("https://mgmtsys.herokuapp.com/products").then((res) => {
       this.setState({ products: res.data });
     });
   };

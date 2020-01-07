@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 const StatusList = () => {
   const [rates, setRates] = useState([]);
-  axios.get("http://localhost:5000/products").then(function(response) {
+  axios.get("https://mgmtsys.herokuapp.com/products").then(function(response) {
     setRates(response.data);
   });
   return rates.map((rate) => {
@@ -45,7 +45,7 @@ const StatusList = () => {
 
 const RateList = () => {
   const [rates, setRates] = useState([]);
-  axios.get("http://localhost:5000/products").then(function(response) {
+  axios.get("https://mgmtsys.herokuapp.com/products").then(function(response) {
     setRates(response.data);
   });
 
