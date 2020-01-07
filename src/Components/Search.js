@@ -5,7 +5,7 @@ import {
   CssBaseline
 } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import SearchTable from './SearchTable';
+import SearchTable from "./SearchTable";
 import SearchIcon from "@material-ui/icons/Search";
 
 const useStyles = makeStyles(theme => ({
