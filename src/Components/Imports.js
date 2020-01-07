@@ -44,14 +44,29 @@ class Imports extends Component {
     };
 
     axios
-      .post("http://localhost:5000/imports/", newData)
+      .post("http://localhost:5000/imports/add", newData)
       .then(() => alert("Data is added!"))
       .catch((err) => alert(err));
 
-    this.handleReset();
+    let updateAvailable =
+      Number(this.state.selectedProduct.Available) +
+      (this.state.radio === "perkg"
+        ? Number(this.state.quantity)
+        : Number(this.state.quantity * 50));
+    const updateData = {
+      ProductName: this.state.selectedProduct.ProductName,
+      PricePerKg: this.state.selectedProduct.PricePerKg,
+      PricePerBag: this.state.selectedProduct.PricePerBag,
+      Available: updateAvailable
+    };
+    axios.put(
+      "http://localhost:5000/products/update/" + this.state.selectedProduct._id,
+      updateData
+    ).then(()=>{this.handleReset()});
   };
   handleReset = () => {
     this.setState({
+      products: [],
       Total: 0,
       ProductName: "",
       userName: "",
@@ -60,6 +75,9 @@ class Imports extends Component {
       selectedProduct: [],
       radio: "",
       rate: 0
+    });
+    axios.get("http://localhost:5000/products").then((res) => {
+      this.setState({ products: res.data });
     });
   };
   //handling user input events----------------------------------------//
@@ -73,28 +91,31 @@ class Imports extends Component {
     });
   };
   handleRadio = (event) => {
-    this.setState({
-      radio:event.target.value,
-    },()=>{
-      let rate =
-      this.state.radio === "perkg"
-        ? this.state.selectedProduct.PricePerKg
-        : this.state.selectedProduct.PricePerBag;
-      this.setState({
-        rate:rate
-      })
-    })
+    this.setState(
+      {
+        radio: event.target.value
+      },
+      () => {
+        let rate =
+          this.state.radio === "perkg"
+            ? this.state.selectedProduct.PricePerKg
+            : this.state.selectedProduct.PricePerBag;
+        this.setState({
+          rate: rate
+        });
+      }
+    );
   };
-  handleQChange =(event) => {
-    this.setState({quantity : event.target.value },()=>{
-      let total = this.state.rate*this.state.quantity;
+  handleQChange = (event) => {
+    this.setState({ quantity: event.target.value }, () => {
+      let total = this.state.rate * this.state.quantity;
       this.setState({
-        Total:total
-      })
+        Total: total
+      });
     });
   };
-  handleChange=(input)=>(event)=>{
-    this.setState({[input]:event.target.value})
+  handleChange = (input) => (event) => {
+    this.setState({ [input]: event.target.value });
   };
   render() {
     return (

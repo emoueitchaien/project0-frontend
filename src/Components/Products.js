@@ -4,8 +4,7 @@ import {
   Button,
   CssBaseline
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import ProductTable from "./ProductTable";
+import { makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,65 +21,49 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Products = () => {
+export default function Products(props) {
   const classes = useStyles();
-
-  //States Declarations
-  const [Product, SetProduct] = React.useState("");
-  const [PricePerKg, SetPricePerKg] = React.useState("");
-  const [PricePerBag, SetPricePerBag] = React.useState("");
-
-  //handle change Functions
-  const handleChangeProducts = e => {
-    SetProduct(e.target.value);
-  };
-
-  const handleChangePriceperkg = e => {
-    SetPricePerKg(e.target.value);
-  };
-
-  const handleChangePriceperbag = e => {
-    SetPricePerBag(e.target.value);
-  };
-
   return (
     <CssBaseline>
       <div className={classes.root}>
-          <TextField
+
+           <TextField
             label="Products Name"
             variant="outlined"
-            color="primary"
-            defaultValue={Product}
-            onChange={handleChangeProducts}
+            color="primary" 
+            value={props.values.Product}
+            onChange={props.handleChange("Product")}
             className={classes.input}
           />
           <TextField
             label="Price Per Kg"
             variant="outlined"
             color="primary"
-            defaultValue={PricePerKg}
-            onChange={handleChangePriceperkg}
+            value={props.values.PricePerKg}
+            onChange={props.handleChange("PricePerKg")}
             className={classes.input}
           />
           <TextField
             label="Price Per Bag"
             variant="outlined"
             color="primary"
-            defaultValue={PricePerBag}
-            onChange={handleChangePriceperbag}
+            value={props.values.PricePerBag}
+            onChange={props.handleChange("PricePerBag")}
             className={classes.input}
           />
+            <TextField
+            label="Available"
+            variant="outlined"
+            color="primary"
+            value={props.values.Available}
+            onChange={props.handleChange("Available")}
+            className={classes.input}
+          />   
           <br />
-          <Button variant="contained" color="primary" className={classes.input}>
-            Add Product
+          <Button variant="contained" color="primary" className={classes.input}  onClick={props.onSubmit} >
+            +
           </Button>
-      </div>
-
-      <div className={classes.position}>
-        <ProductTable />
-      </div>
+      </div> 
     </CssBaseline>
   );
 };
-
-export default Products;

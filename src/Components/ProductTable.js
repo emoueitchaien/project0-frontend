@@ -1,53 +1,62 @@
-import React from 'react';
-import {Table,TableCell,TableHead,TableRow,TableBody} from "@material-ui/core";
+import React from "react";
+import {
+  Table,
+  TableCell,
+  TableHead,
+  TableRow,
+  TableBody
+} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 
-const columns=[
-    {id:"Products", label: "Products Name"},
-    {id:"PricePerKg", label: "Price Per KG"},
-    {id:"PricePerBag", label: "Price Per Bag"}
-]
+const Tableinfo = (props) => (
+  <TableRow>
+    <TableCell>{props.row.ProductName}</TableCell>
+    <TableCell>{props.row.PricePerKg}</TableCell>
+    <TableCell>{props.row.PricePerBag}</TableCell>
+    <TableCell>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => props.onDelete(props.row._id)}
+      >
+        Delete
+      </Button>
+    </TableCell>
+  </TableRow>
+);
 
-function createData(Product,PricePerKg,PricePerBag) {
-  return { Product,PricePerKg,PricePerBag };
-}
+const columns = [
+  { id: "Products", label: "Products Name" },
+  { id: "PricePerKg", label: "Price Per KG" },
+  { id: "PricePerBag", label: "Price Per Bag" },
+  { id: "Actions", label: "Actions" }
+];
 
-const rows=[
-  createData("Mansuli",70,2500),
-  createData("JiraMasina",90,3500),
-  createData("Normal",60,2000),
-]
+export default function ProductTable(props) {
+  const tablelist = () => {
+    return props.Tableinfo.map((currentinfo) => {
+      return (
+        <Tableinfo
+          row={currentinfo}
+          onDelete={props.onDelete}
+          key={currentinfo._id}
+        />
+      );
+    });
+  };
 
-export default function ProductTable() {
-    return (
-             <div> 
-            <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-            <TableRow>
-              {columns.map(column => (
-                <TableCell
-                  key={column.id}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-            </TableHead>
-            <TableBody>
-                {rows.map(rows=>(
-                  <TableRow>
-                  <TableCell key={rows.Product}>
-                    {rows.Product}
-                  </TableCell>
-                   <TableCell key={rows.PricePerKg}>
-                   {rows.PricePerKg}
-                  </TableCell>
-                  <TableCell key={rows.PricePerBag}>
-                  {rows.PricePerBag}
-                 </TableCell>
-                 </TableRow>
-                ))}
-            </TableBody>
-            </Table>
-        </div>
-    )
+  return (
+    <div>
+      <Table stickyHeader aria-label="sticky table">
+        <TableHead>
+          <TableRow>
+            {columns.map((column) => (
+              <TableCell key={column.id}>{column.label}</TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>{tablelist()}</TableBody>
+      </Table>
+    </div>
+  );
 }
