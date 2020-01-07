@@ -48,7 +48,6 @@ const RateList = () => {
   const [rates, setRates] = useState([]);
   axios.get("http://localhost:5000/products").then(function(response) {
     setRates(response.data);
-    // console.log(rates);
   });
 
   return rates.map(rate => {
