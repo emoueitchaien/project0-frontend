@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 //Components Import
-import Products from "./Components/Products";
+import Products_info from "./Components/Products.info";
 import Home from "./Components/Home";
 import Search from "./Components/Search";
 import Exports from "./Components/Exports";
@@ -18,7 +18,7 @@ function App() {
         <Route path="/exports" component={Exports} />
         <Route path="/imports" component={Imports} />
         <Route path="/search" component={Search} />
-        <Route path="/products" component={Products} />
+        <Route path="/products" component={Products_info} />
       </div>
     </Router>
   );

@@ -12,18 +12,19 @@ import {
 } from "@material-ui/core";
 import axios from "axios";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     marginTop: theme.spacing(10),
     marginLeft: theme.spacing(4)
   },
   statusBar: {
-    width: "70%"
+    width: "60%"
   },
   ratesBar: {
-    width: "20%",
-    marginLeft: theme.spacing(4)
+    width: "40%",
+    marginLeft: theme.spacing(4),
+    marginRight:theme.spacing(4)
   }
 }));
 
@@ -31,14 +32,12 @@ const StatusList = () => {
   const [rates, setRates] = useState([]);
   axios.get("http://localhost:5000/products").then(function(response) {
     setRates(response.data);
-    // console.log(rates);
   });
-  return rates.map(rate => {
+  return rates.map((rate) => {
     return (
-      <TableRow>
+      <TableRow key={rate._id}>
         <TableCell>{rate.ProductName}</TableCell>
-        <TableCell>'Total N/A now'</TableCell>
-        <TableCell>'Total N/A now'</TableCell>
+        <TableCell>{rate.Available}</TableCell>
       </TableRow>
     );
   });
@@ -50,9 +49,9 @@ const RateList = () => {
     setRates(response.data);
   });
 
-  return rates.map(rate => {
+  return rates.map((rate) => {
     return (
-      <TableRow>
+      <TableRow key={rate._id}>
         <TableCell>{rate.ProductName}</TableCell>
         <TableCell>{rate.PricePerKg}</TableCell>
         <TableCell>{rate.PricePerBag}</TableCell>
@@ -73,11 +72,10 @@ const Home = () => {
               <TableRow>
                 <TableCell>Products</TableCell>
                 <TableCell>Available (KG)</TableCell>
-                <TableCell>Available (Bags)</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              <StatusList />
+              <StatusList/>
             </TableBody>
           </Table>
         </Card>
