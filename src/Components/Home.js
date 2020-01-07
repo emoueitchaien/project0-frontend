@@ -1,10 +1,18 @@
 import React from "react";
+import { useState } from "react";
 import { CssBaseline } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
-import { Table, TableHead,TableBody, TableCell, TableRow } from "@material-ui/core";
+import {
+  Table,
+  TableHead,
+  TableBody,
+  TableCell,
+  TableRow
+} from "@material-ui/core";
+import axios from "axios";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     marginTop: theme.spacing(10),
@@ -15,28 +23,43 @@ const useStyles = makeStyles((theme) => ({
   },
   ratesBar: {
     width: "20%",
-    marginLeft: theme.spacing(8)
+    marginLeft: theme.spacing(4)
   }
 }));
 
 const StatusList = () => {
-  return (
-    <TableRow>
-      <TableCell>Mansuli</TableCell>
-      <TableCell>500</TableCell>
-      <TableCell>10</TableCell>
-    </TableRow>
-  );
+  const [rates, setRates] = useState([]);
+  axios.get("http://localhost:5000/products").then(function(response) {
+    setRates(response.data);
+    // console.log(rates);
+  });
+  return rates.map(rate => {
+    return (
+      <TableRow>
+        <TableCell>{rate.ProductName}</TableCell>
+        <TableCell>'Total N/A now'</TableCell>
+        <TableCell>'Total N/A now'</TableCell>
+      </TableRow>
+    );
+  });
 };
 
 const RateList = () => {
-  return (
-    <TableRow>
-      <TableCell>Mansuli</TableCell>
-      <TableCell>500</TableCell>
-      <TableCell>400</TableCell>
-    </TableRow>
-  );
+  const [rates, setRates] = useState([]);
+  axios.get("http://localhost:5000/products").then(function(response) {
+    setRates(response.data);
+    // console.log(rates);
+  });
+
+  return rates.map(rate => {
+    return (
+      <TableRow>
+        <TableCell>{rate.ProductName}</TableCell>
+        <TableCell>{rate.PricePerKg}</TableCell>
+        <TableCell>{rate.PricePerBag}</TableCell>
+      </TableRow>
+    );
+  });
 };
 
 const Home = () => {
