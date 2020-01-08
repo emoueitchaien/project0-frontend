@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 const StatusList = () => {
   const [rates, setRates] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:5000/products").then((response)=> {
+    axios.get("https://mgmtsys.herokuapp.com/products").then((response)=> {
       setRates(response.data);
     });
   });
@@ -48,7 +48,7 @@ const StatusList = () => {
 const RateList = () => {
   const [rates, setRates] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:5000/products").then((response)=> {
+    axios.get("https://mgmtsys.herokuapp.com/products").then((response)=> {
       setRates(response.data);
     });
   });

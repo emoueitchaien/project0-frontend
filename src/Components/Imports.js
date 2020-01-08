@@ -29,7 +29,7 @@ class Exports extends Component {
   }
   //handling Data events ------------------------------------------//
   componentDidMount = () => {
-    axios.get("http://localhost:5000/products").then((res) => {
+    axios.get("https://mgmtsys.herokuapp.com/products").then((res) => {
       this.setState({ products: res.data });
     });
   };
@@ -46,7 +46,7 @@ class Exports extends Component {
       Merchant_Phone_No: this.state.userPno
     };
     axios
-      .post("http://localhost:5000/imports/add", newData)
+      .post("https://mgmtsys.herokuapp.com/imports/add", newData)
       .then(() => alert("Data is added!"))
       .catch((err) => alert(err));
 
@@ -64,7 +64,7 @@ class Exports extends Component {
     };
     axios
       .put(
-        "http://localhost:5000/products/update/" +
+        "https://mgmtsys.herokuapp.com/products/update/" +
           this.state.selectedProduct._id,
         updateData
       )
