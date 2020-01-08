@@ -3,12 +3,9 @@ import {
   Select,
   InputLabel,
   Button,
-  MenuItem,
   FormControl,
-  RadioGroup,
-  Radio,
-  FormControlLabel,
-  TextField
+  TextField,
+  MenuItem
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
@@ -48,21 +45,17 @@ const Inputs = (props) => {
             })}
           </Select>
         </FormControl>
-        <FormControl component="fieldset" className={classes.position}>
-          <RadioGroup value={props.state.radio} onChange={props.handleRadio}>
-            <FormControlLabel
-              value="perkg"
-              control={<Radio />}
-              label="Per Kg"
-            />
-            <FormControlLabel
-              value="perbag"
-              control={<Radio />}
-              label="Per Bag"
-            />
-          </RadioGroup>
+        <FormControl component="fieldset" className={classes.position} style={{width:150}}>
+        <InputLabel>Options</InputLabel>
+          <Select value={props.state.modeSelection} onChange={props.handleModeChange}>
+            <MenuItem value="1">Per KG</MenuItem>
+            <MenuItem value="25">25 KG Bag</MenuItem>
+            <MenuItem value="30">30 KG Bag</MenuItem>
+            <MenuItem value="50">50 KG Bag</MenuItem>
+          </Select>
         </FormControl>
         <TextField
+          label="Rate"
           disabled
           variant="outlined"
           value={props.state.rate}
@@ -75,7 +68,6 @@ const Inputs = (props) => {
           value={props.state.quantity}
           onChange={props.handleQChange}
           style={{ width: 100 }}
-          // onChange={handleQchange}
           className={classes.position}
         />
         <TextField
@@ -105,8 +97,11 @@ const Inputs = (props) => {
         />
       </div>
       <div className={clsx(classes.buttons, classes.root)}>
-        <Button variant="contained" style={{ width: "200px" }} color="primary"
-        onClick={props.handleSubmit}
+        <Button
+          variant="contained"
+          style={{ width: "200px" }}
+          color="primary"
+          onClick={props.handleSubmit}
         >
           Add
         </Button>
