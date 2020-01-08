@@ -59,11 +59,6 @@ export default class Products_info extends Component {
       PricePerBag: "",
       Available: 0
     });
-    axios
-      .get("https://mgmtsys.herokuapp.com/products/")
-      .then((res) => this.setState({ ProductsTable: res.data }))
-      .catch((err) => console.log(err));
-    
   };
   handleChange = (input) => (e) => {
     this.setState({ [input]: e.target.value });
