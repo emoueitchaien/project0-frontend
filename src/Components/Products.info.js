@@ -42,13 +42,13 @@ export default class Products_info extends Component {
     };
     axios
       .post("https://mgmtsys.herokuapp.com/products/add", Products)
-      .then(() => alert("Product Added"),()=>{
+      .then(()=>{
         axios
         .get("https://mgmtsys.herokuapp.com/products/")
         .then((res) => this.setState({ ProductsTable: res.data }))
-        .catch((err) => console.log(err));
+        .catch((err) => alert(err));
       })
-      .catch((err) => console.log("Error::" + err));
+      .catch((err) => alert("Error::" + err));
 
     this.handleReset();
   };
