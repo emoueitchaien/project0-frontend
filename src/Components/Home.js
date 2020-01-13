@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { Component} from "react";
 import { CssBaseline } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
@@ -28,14 +27,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const StatusList = () => {
-  const [rates, setRates] = useState([]);
-  useEffect(() => {
-    axios.get("https://mgmtsys.herokuapp.com/products").then((response)=> {
-      setRates(response.data);
-    });
-  });
-  return rates.map((rate) => {
+const StatusList = (props) => {
+  return props.data.map((rate) => {
     return (
       <TableRow key={rate._id}>
         <TableCell>{rate.ProductName}</TableCell>
@@ -45,14 +38,8 @@ const StatusList = () => {
   });
 };
 
-const RateList = () => {
-  const [rates, setRates] = useState([]);
-  useEffect(() => {
-    axios.get("https://mgmtsys.herokuapp.com/products").then((response)=> {
-      setRates(response.data);
-    });
-  });
-  return rates.map((rate) => {
+const RateList = (props) => {
+  return props.data.map((rate) => {
     return (
       <TableRow key={rate._id}>
         <TableCell>{rate.ProductName}</TableCell>
@@ -65,7 +52,7 @@ const RateList = () => {
   });
 };
 
-const Home = () => {
+const Page = (props) => {
   const classes = useStyles();
   return (
     <CssBaseline>
@@ -80,7 +67,7 @@ const Home = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <StatusList />
+              <StatusList data={props.data}/>
             </TableBody>
           </Table>
         </Card>
@@ -97,7 +84,7 @@ const Home = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <RateList />
+              <RateList data={props.data}/>
             </TableBody>
           </Table>
         </Card>
@@ -105,5 +92,24 @@ const Home = () => {
     </CssBaseline>
   );
 };
+
+class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      products: []
+    };
+  }
+  componentDidMount() {
+    axios.get("https://mgmtsys.herokuapp.com/products").then((response) => {
+      this.setState({
+        products: response.data
+      });
+    });
+  }
+  render() {
+    return <Page data={this.state.products}/>;
+  }
+}
 
 export default Home;

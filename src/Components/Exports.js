@@ -46,6 +46,7 @@ class Exports extends Component {
       Customer_Phone_No: this.state.userPno
     };
     
+    
     axios
       .post("https://mgmtsys.herokuapp.com/exports/add", newData)
       .then(() => alert("Data is added!"))
