@@ -18,14 +18,14 @@ export default class Products_info extends Component {
 
   componentDidMount() {
     axios
-      .get("https://mgmtsys.herokuapp.com/products/")
-      .then((res) => this.setState({ ProductsTable: res.data }))
+      .get("http://localhost:5000/products/")
+      .then((res) => this.setState({ ProductsTable: res.data.reverse() }))
       .catch((err) => console.log(err));
   }
 
   onDelete = (id) => {
     axios
-      .delete("https://mgmtsys.herokuapp.com/products/delete/" +id)
+      .delete("http://localhost:5000/products/delete/" +id)
       .then(() => alert("Item Deleted"))
       .catch((err) => alert(err));
     this.setState({
@@ -41,11 +41,11 @@ export default class Products_info extends Component {
       Available: this.state.Available
     };
     axios
-      .post("https://mgmtsys.herokuapp.com/products/add", Products)
+      .post("http://localhost:5000/products/add", Products)
       .then(()=>{
         axios
-        .get("https://mgmtsys.herokuapp.com/products/")
-        .then((res) => this.setState({ ProductsTable: res.data }))
+        .get("http://localhost:5000/products/")
+        .then((res) => this.setState({ ProductsTable: res.data.reverse()}))
         .catch((err) => alert(err));
       })
       .catch((err) => alert("Error::" + err));

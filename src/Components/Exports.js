@@ -29,24 +29,27 @@ class Exports extends Component {
   }
   //handling Data events ------------------------------------------//
   componentDidMount = () => {
-    axios.get("https://mgmtsys.herokuapp.com/products").then((res) => {
-      this.setState({ products: res.data });
+    axios.get("http://localhost:5000/products").then(res => {
+      this.setState({ products: res.data});
     });
   };
-  handleSubmit = (e) => {
+  
+  handleSubmit = e => {
     e.preventDefault();
 
     const newData = {
       ProductName: this.state.ProductName,
       Total: this.state.Total,
+      Quantity: this.state.quantity,
+      Rate: this.state.rate,
       Customer: this.state.userName,
-      Customer_Phone_No: this.state.userPno
+      Customer_Phone_No: this.state.userPno,
     };
 
     axios
-      .post("https://mgmtsys.herokuapp.com/exports/add", newData)
+      .post("http://localhost:5000/exports/add", newData)
       .then(() => alert("Data is added!"))
-      .catch((err) => alert(err));
+      .catch(err => alert(err));
 
     let updateAvailable =
       Number(this.state.selectedProduct.Available) -
@@ -61,7 +64,7 @@ class Exports extends Component {
     };
     axios
       .put(
-        "https://mgmtsys.herokuapp.com/products/update/" +
+        "http://localhost:5000/products/update/" +
           this.state.selectedProduct._id,
         updateData
       )
@@ -82,16 +85,16 @@ class Exports extends Component {
     });
   };
   //handling user input events----------------------------------------//
-  handleProductChange = (event) => {
+  handleProductChange = event => {
     let obj = this.state.products.find(
-      (query) => query.ProductName === event.target.value
+      query => query.ProductName === event.target.value
     );
     this.setState({
       ProductName: event.target.value,
       selectedProduct: obj
     });
   };
-  handleRadio = (event) => {
+  handleRadio = event => {
     this.setState(
       {
         radio: event.target.value
@@ -107,7 +110,7 @@ class Exports extends Component {
       }
     );
   };
-  handleQChange = (event) => {
+  handleQChange = event => {
     this.setState({ quantity: event.target.value }, () => {
       let total = this.state.rate * this.state.quantity;
       this.setState({
@@ -115,7 +118,7 @@ class Exports extends Component {
       });
     });
   };
-  handleChange = (input) => (event) => {
+  handleChange = input => event => {
     this.setState({ [input]: event.target.value });
   };
   render() {
