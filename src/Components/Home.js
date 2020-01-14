@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { Component} from "react";
 import { CssBaseline } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,21 +18,17 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(4)
   },
   statusBar: {
-    width: "60%"
+    width: "55%"
   },
   ratesBar: {
-    width: "40%",
+    width: "45%",
     marginLeft: theme.spacing(4),
-    marginRight:theme.spacing(4)
+    marginRight: theme.spacing(4)
   }
 }));
 
-const StatusList = () => {
-  const [rates, setRates] = useState([]);
-  axios.get("https://mgmtsys.herokuapp.com/products").then(function(response) {
-    setRates(response.data);
-  });
-  return rates.map((rate) => {
+const StatusList = (props) => {
+  return props.data.map((rate) => {
     return (
       <TableRow key={rate._id}>
         <TableCell>{rate.ProductName}</TableCell>
@@ -43,24 +38,21 @@ const StatusList = () => {
   });
 };
 
-const RateList = () => {
-  const [rates, setRates] = useState([]);
-  axios.get("https://mgmtsys.herokuapp.com/products").then(function(response) {
-    setRates(response.data);
-  });
-
-  return rates.map((rate) => {
+const RateList = (props) => {
+  return props.data.map((rate) => {
     return (
       <TableRow key={rate._id}>
         <TableCell>{rate.ProductName}</TableCell>
         <TableCell>{rate.PricePerKg}</TableCell>
-        <TableCell>{rate.PricePerBag}</TableCell>
+        <TableCell>{rate.PricePer25Bag}</TableCell>
+        <TableCell>{rate.PricePer30Bag}</TableCell>
+        <TableCell>{rate.PricePer50Bag}</TableCell>
       </TableRow>
     );
   });
 };
 
-const Home = () => {
+const Page = (props) => {
   const classes = useStyles();
   return (
     <CssBaseline>
@@ -71,11 +63,11 @@ const Home = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Products</TableCell>
-                <TableCell>Available (KG)</TableCell>
+                <TableCell>Available KG</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              <StatusList/>
+              <StatusList data={props.data}/>
             </TableBody>
           </Table>
         </Card>
@@ -86,11 +78,13 @@ const Home = () => {
               <TableRow>
                 <TableCell>Products</TableCell>
                 <TableCell>Per KG</TableCell>
-                <TableCell>Per Bag</TableCell>
+                <TableCell>25KG Bag</TableCell>
+                <TableCell>30KG Bag</TableCell>
+                <TableCell>50KG Bag</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              <RateList />
+              <RateList data={props.data}/>
             </TableBody>
           </Table>
         </Card>
@@ -98,5 +92,24 @@ const Home = () => {
     </CssBaseline>
   );
 };
+
+class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      products: []
+    };
+  }
+  componentDidMount() {
+    axios.get("https://mgmtsys.herokuapp.com/products").then((response) => {
+      this.setState({
+        products: response.data
+      });
+    });
+  }
+  render() {
+    return <Page data={this.state.products}/>;
+  }
+}
 
 export default Home;

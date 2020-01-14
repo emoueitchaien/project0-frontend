@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { CssBaseline, Button } from "@material-ui/core";
+import { CssBaseline} from "@material-ui/core";
 import axios from "axios";
 
 // import Inputs from "./Inputs";
@@ -23,8 +23,8 @@ class Exports extends Component {
       userPno: "",
       selectedProduct: [],
       quantity: "",
-      radio: "",
-      rate: 0
+      rate: 0,
+      modeSelection:""
     };
   }
   //handling Data events ------------------------------------------//
@@ -38,11 +38,15 @@ class Exports extends Component {
 
     const newData = {
       ProductName: this.state.ProductName,
+      Quantity:this.state.quantity,
+      Rate:this.state.rate,
+      mode:this.state.modeSelection,
       Total: this.state.Total,
       Customer: this.state.userName,
       Customer_Phone_No: this.state.userPno
     };
-
+    
+    
     axios
       .post("https://mgmtsys.herokuapp.com/exports/add", newData)
       .then(() => alert("Data is added!"))
@@ -50,13 +54,14 @@ class Exports extends Component {
 
     let updateAvailable =
       Number(this.state.selectedProduct.Available) -
-      (this.state.radio === "perkg"
-        ? Number(this.state.quantity)
-        : Number(this.state.quantity * 50));
+      (Number(this.state.quantity)*Number(this.state.modeSelection));
+      
     const updateData = {
       ProductName: this.state.selectedProduct.ProductName,
       PricePerKg: this.state.selectedProduct.PricePerKg,
-      PricePerBag: this.state.selectedProduct.PricePerBag,
+      PricePer25Bag: this.state.selectedProduct.PricePer25Bag,
+      PricePer30Bag: this.state.selectedProduct.PricePer30Bag,
+      PricePer50Bag: this.state.selectedProduct.PricePer50Bag,
       Available: updateAvailable
     };
     axios
@@ -75,10 +80,10 @@ class Exports extends Component {
       ProductName: "",
       userName: "",
       userPno: "",
-      quantity: "",
       selectedProduct: [],
-      radio: "",
-      rate: 0
+      quantity: "",
+      rate: 0,
+      modeSelection:""
     });
   };
   //handling user input events----------------------------------------//
@@ -91,16 +96,22 @@ class Exports extends Component {
       selectedProduct: obj
     });
   };
-  handleRadio = (event) => {
+  handleModeChange = (event) => {
     this.setState(
       {
-        radio: event.target.value
+        modeSelection: event.target.value
       },
       () => {
-        let rate =
-          this.state.radio === "perkg"
-            ? this.state.selectedProduct.PricePerKg
-            : this.state.selectedProduct.PricePerBag;
+        let rate = 0;
+        const {modeSelection} = this.state;
+        if(modeSelection === "1")
+          rate = this.state.selectedProduct.PricePerKg;
+        else if(modeSelection === "25")
+          rate = this.state.selectedProduct.PricePer25Bag;
+        else if(modeSelection === "30")
+          rate = this.state.selectedProduct.PricePer30Bag;
+        else if(modeSelection === "50")
+          rate = this.state.selectedProduct.PricePer50Bag;
         this.setState({
           rate: rate
         });
@@ -129,13 +140,10 @@ class Exports extends Component {
             handleSubmit={this.handleSubmit}
             handleReset={this.handleReset}
             handleProductChange={this.handleProductChange}
-            handleRadio={this.handleRadio}
+            handleModeChange={this.handleModeChange}
             handleQChange={this.handleQChange}
             handleChange={this.handleChange}
           />
-          <Button style={{ marginTop: 50 }} color="default" variant="contained">
-            Print
-          </Button>
         </div>
       </CssBaseline>
     );

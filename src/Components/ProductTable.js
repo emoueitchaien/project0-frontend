@@ -8,11 +8,13 @@ import {
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 
-const Tableinfo = (props) => (
+const Tableinfo = props => (
   <TableRow>
     <TableCell>{props.row.ProductName}</TableCell>
     <TableCell>{props.row.PricePerKg}</TableCell>
-    <TableCell>{props.row.PricePerBag}</TableCell>
+    <TableCell>{props.row.PricePer25Bag}</TableCell>
+    <TableCell>{props.row.PricePer30Bag}</TableCell>
+    <TableCell>{props.row.PricePer50Bag}</TableCell>
     <TableCell>
       <Button
         variant="contained"
@@ -28,13 +30,15 @@ const Tableinfo = (props) => (
 const columns = [
   { id: "Products", label: "Products Name" },
   { id: "PricePerKg", label: "Price Per KG" },
-  { id: "PricePerBag", label: "Price Per Bag" },
+  { id: "PricePer25Bag", label: "Price Per Bag" },
+  { id: "PricePer30Bag", label: "Price Per Bag" },
+  { id: "PricePer50Bag", label: "Price Per Bag" },
   { id: "Actions", label: "Actions" }
 ];
 
 export default function ProductTable(props) {
   const tablelist = () => {
-    return props.Tableinfo.map((currentinfo) => {
+    return props.Tableinfo.map(currentinfo => {
       return (
         <Tableinfo
           row={currentinfo}
@@ -50,7 +54,7 @@ export default function ProductTable(props) {
       <Table stickyHeader aria-label="sticky table">
         <TableHead>
           <TableRow>
-            {columns.map((column) => (
+            {columns.map(column => (
               <TableCell key={column.id}>{column.label}</TableCell>
             ))}
           </TableRow>

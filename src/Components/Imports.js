@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { CssBaseline } from "@material-ui/core";
 import axios from "axios";
 
-//Importing components
+// import Inputs from "./Inputs";
 import Inputs from "./Inputs";
 
 const classes = {
@@ -12,7 +12,7 @@ const classes = {
   }
 };
 
-class Imports extends Component {
+class Exports extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,8 +23,8 @@ class Imports extends Component {
       userPno: "",
       selectedProduct: [],
       quantity: "",
-      radio: "",
-      rate: 0
+      rate: 0,
+      modeSelection: ""
     };
   }
   //handling Data events ------------------------------------------//
@@ -38,11 +38,13 @@ class Imports extends Component {
 
     const newData = {
       ProductName: this.state.ProductName,
+      Quantity: this.state.quantity,
+      Rate: this.state.rate,
+      mode: this.state.modeSelection,
       Total: this.state.Total,
       Merchant: this.state.userName,
       Merchant_Phone_No: this.state.userPno
     };
-
     axios
       .post("https://mgmtsys.herokuapp.com/imports/add", newData)
       .then(() => alert("Data is added!"))
@@ -50,34 +52,36 @@ class Imports extends Component {
 
     let updateAvailable =
       Number(this.state.selectedProduct.Available) +
-      (this.state.radio === "perkg"
-        ? Number(this.state.quantity)
-        : Number(this.state.quantity * 50));
+      (Number(this.state.quantity) * Number(this.state.modeSelection));
+
     const updateData = {
       ProductName: this.state.selectedProduct.ProductName,
       PricePerKg: this.state.selectedProduct.PricePerKg,
-      PricePerBag: this.state.selectedProduct.PricePerBag,
+      PricePer25Bag: this.state.selectedProduct.PricePer25Bag,
+      PricePer30Bag: this.state.selectedProduct.PricePer30Bag,
+      PricePer50Bag: this.state.selectedProduct.PricePer50Bag,
       Available: updateAvailable
     };
-    axios.put(
-      "https://mgmtsys.herokuapp.com/products/update/" + this.state.selectedProduct._id,
-      updateData
-    ).then(()=>{this.handleReset()});
+    axios
+      .put(
+        "https://mgmtsys.herokuapp.com/products/update/" +
+          this.state.selectedProduct._id,
+        updateData
+      )
+      .then(() => {
+        this.handleReset();
+      });
   };
   handleReset = () => {
     this.setState({
-      products: [],
       Total: 0,
       ProductName: "",
       userName: "",
       userPno: "",
-      quantity: "",
       selectedProduct: [],
-      radio: "",
-      rate: 0
-    });
-    axios.get("https://mgmtsys.herokuapp.com/products").then((res) => {
-      this.setState({ products: res.data });
+      quantity: "",
+      rate: 0,
+      modeSelection: ""
     });
   };
   //handling user input events----------------------------------------//
@@ -90,16 +94,21 @@ class Imports extends Component {
       selectedProduct: obj
     });
   };
-  handleRadio = (event) => {
+  handleModeChange = (event) => {
     this.setState(
       {
-        radio: event.target.value
+        modeSelection: event.target.value
       },
       () => {
-        let rate =
-          this.state.radio === "perkg"
-            ? this.state.selectedProduct.PricePerKg
-            : this.state.selectedProduct.PricePerBag;
+        let rate = 0;
+        const { modeSelection } = this.state;
+        if (modeSelection === "1") rate = this.state.selectedProduct.PricePerKg;
+        else if (modeSelection === "25")
+          rate = this.state.selectedProduct.PricePer25Bag;
+        else if (modeSelection === "30")
+          rate = this.state.selectedProduct.PricePer30Bag;
+        else if (modeSelection === "50")
+          rate = this.state.selectedProduct.PricePer50Bag;
         this.setState({
           rate: rate
         });
@@ -128,7 +137,7 @@ class Imports extends Component {
             handleSubmit={this.handleSubmit}
             handleReset={this.handleReset}
             handleProductChange={this.handleProductChange}
-            handleRadio={this.handleRadio}
+            handleModeChange={this.handleModeChange}
             handleQChange={this.handleQChange}
             handleChange={this.handleChange}
           />
@@ -138,4 +147,4 @@ class Imports extends Component {
   }
 }
 
-export default Imports;
+export default Exports;
