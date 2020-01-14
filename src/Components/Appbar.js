@@ -68,7 +68,7 @@ export default function Apppbar() {
             <MenuIcon />
           </IconButton>
           <Container>
-            <Typography align="center">RECORD MANAGEMENT SYSTEM</Typography>
+            <Typography align="center">RICE MILL SYSTEM</Typography>
           </Container>
         </Toolbar>
       </AppBar>
