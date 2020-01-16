@@ -21,28 +21,56 @@ export default class Search extends Component {
     this.state = {
       Product: "",
       Username: "",
-      exports: [],
+      search: [],
+      data: [],
       date: "",
-      imports: [],
       modeSelection: 1
     };
   }
+  componentDidMount() {
+    this.getData();
+  }
+  getData = () => {
+    if (this.state.modeSelection)
+      axios
+        .get("https://mgmtsys.herokuapp.com/exports/")
+        .then((res) => this.setState({ data: res.data.reverse() }))
+        .catch((err) => console.log(err));
+    else
+      axios
+        .get("https://mgmtsys.herokuapp.com/imports/")
+        .then((res) => this.setState({ data: res.data.reverse() }))
+        .catch((err) => console.log(err));
+  };
+
   onSearch = () => {
     if (
       this.state.date === "" &&
-      this.state.Product === "" &&
-      this.state.Username === ""
+      this.state.Username === "" &&
+      this.state.Product === ""
     ) {
+      alert("All Data are displayed!");
+      this.setState({
+        search: this.state.data
+      });
+    } else {
+      let search = [];
       if (this.state.modeSelection)
-        axios
-          .get("https://mgmtsys.herokuapp.com/exports/")
-          .then((res) => this.setState({ exports: res.data.reverse() }))
-          .catch((err) => console.log(err));
+        search = this.state.data.filter(
+          (item) =>
+            item.createdAt.slice(0, 10).includes(this.state.date) &&
+            item.ProductName.includes(this.state.Product.toLowerCase()) &&
+            item.Customer.includes(this.state.Username.toLowerCase())
+        );
       else
-        axios
-          .get("https://mgmtsys.herokuapp.com/imports/")
-          .then((res) => this.setState({ imports: res.data.reverse() }))
-          .catch((err) => console.log(err));
+        search = this.state.data.filter(
+          (item) =>
+            item.createdAt.slice(0, 10).includes(this.state.date) &&
+            item.ProductName.includes(this.state.Product.toLowerCase()) &&
+            item.Merchant.includes(this.state.Username.toLowerCase())
+        );
+
+      this.setState({ search: search });
     }
   };
 
@@ -53,7 +81,7 @@ export default class Search extends Component {
         .then(() => alert("Item Deleted"))
         .catch((err) => alert(err));
       this.setState({
-        exports: this.state.exports.filter((el) => el._id !== id)
+        search: this.state.search.filter((el) => el._id !== id)
       });
     } else {
       axios
@@ -61,7 +89,7 @@ export default class Search extends Component {
         .then(() => alert("Item Deleted"))
         .catch((err) => alert(err));
       this.setState({
-        imports: this.state.imports.filter((el) => el._id !== id)
+        search: this.state.search.filter((el) => el._id !== id)
       });
     }
   };
@@ -75,17 +103,14 @@ export default class Search extends Component {
     this.setState({ Username: e.target.value });
   };
   handleChangeMode = (e) => {
-    this.setState({ modeSelection: e.target.value });
+    this.setState({ modeSelection: e.target.value }, () => this.getData());
+    this.setState({ search: [] });
   };
   onChangeDate = (e) => {
     this.setState({
       date: e.target.value
     });
   };
-  handleData = () => {
-    return this.state.modeSelection ? this.state.exports : this.state.imports;
-  };
-
   render() {
     const header = this.state.modeSelection ? "Exports" : "Imports";
     const label = this.state.modeSelection ? "Customer Name" : "Merchant Name";
@@ -118,10 +143,7 @@ export default class Search extends Component {
             variant="outlined"
             defaultValue={this.state.Merchant}
           />
-          <FormControl
-            component="fieldset"
-            style={Styles.inputfileds}
-          >
+          <FormControl component="fieldset" style={Styles.inputfileds}>
             <InputLabel>Search Area</InputLabel>
             <Select
               value={this.state.modeSelection}
@@ -149,7 +171,7 @@ export default class Search extends Component {
           <TableContainer style={Styles.tables}>
             <SearchResults
               mode={this.state.modeSelection}
-              data={this.handleData()}
+              data={this.state.search}
               onDelete={this.onDelete}
             />
           </TableContainer>
@@ -176,7 +198,7 @@ const Styles = {
     height: 50
   },
   tables: {
-    height: 350
+    height: "380px"
   },
   table: {
     marginLeft: "3%"
