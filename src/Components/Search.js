@@ -17,22 +17,25 @@ export default class Search extends Component {
       Product: "",
       Merchant: "",
       exports: [],
-      date: "",
-      imports: []
+      date: ""
     };
   }
 
   componentDidMount() {
     axios
       .get("http://localhost:5000/exports/")
-      .then(res => this.setState({ exports: res.data.reverse() }))
+      .then(res =>
+        this.setState({
+          exports: res.data.reverse()
+        })
+      )
       .catch(err => console.log(err));
   }
 
   onSearch = () => {
     if (
       this.state.date === "" &&
-      this.state.Merchant === "" &&
+      this.state.Product === "" &&
       this.state.Merchant === ""
     ) {
       alert("Please Enter the Information");
@@ -65,14 +68,7 @@ export default class Search extends Component {
           searchitem.Customer === this.state.Merchant
       );
       this.setState({ exports: search });
-    } else if (this.state.Product === "") {
-      let search = this.state.exports.filter(
-        searchitem =>
-          searchitem.createdAt.slice(0, 10) === this.state.date &&
-          searchitem.Customer === this.state.Merchant
-      );
-      this.setState({ exports: search });
-    } else if (this.state.Customer === "") {
+    } else if (this.state.Merchant === "") {
       let search = this.state.exports.filter(
         searchitem =>
           searchitem.createdAt.slice(0, 10) === this.state.date &&
