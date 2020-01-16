@@ -46,7 +46,13 @@ export class PrintExport extends Component {
     const dateinwords = date.toString().slice(0, 15);
     const { data, modeSelection, ids } = this.props.location.state;
     const idsToPrint = Array.from(ids);
-    // console.log(modeSelection);
+    let subtotal = 0;
+    data
+      .filter(currentinfo => idsToPrint.includes(currentinfo._id))
+      .forEach(element => {
+        subtotal = subtotal + element.Total;
+      });
+    console.log(subtotal);
     // console.log(ProductName);
     // let Qty = "";
     // if (modeSelection === "1") Qty = `${quantity} KG(s)`;
@@ -89,6 +95,20 @@ export class PrintExport extends Component {
                 modeSelection={modeSelection}
                 idsToPrint={idsToPrint}
               />
+              <TableRow>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>Subtotal :</TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell>{subtotal}</TableCell>
+              </TableRow>
             </TableBody>
           </Table>
           <br />
