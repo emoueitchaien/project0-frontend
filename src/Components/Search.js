@@ -24,7 +24,8 @@ export default class Search extends Component {
       search: [],
       data: [],
       date: "",
-      modeSelection: 1
+      modeSelection: 1,
+      idsToPrint: []
     };
   }
   componentDidMount() {
