@@ -13,6 +13,7 @@ import {
 import SearchResults from "./SearchResults";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default class Search extends Component {
   constructor(props) {
@@ -172,6 +173,18 @@ export default class Search extends Component {
             style={Styles.button}
           >
             <SearchIcon />
+          </Button>
+          <Button
+            variant="contained"
+            style={Styles.button}
+            color="secondary"
+            component={Link}
+            to={{
+              pathname: "/printExport",
+              state: this.state
+            }}
+          >
+            Print
           </Button>
         </div>
 
