@@ -59,15 +59,15 @@ export default class Search extends Component {
         search = this.state.data.filter(
           (item) =>
             item.createdAt.slice(0, 10).includes(this.state.date) &&
-            item.ProductName.includes(this.state.Product) &&
-            item.Customer.includes(this.state.Username)
+            item.ProductName.includes(this.state.Product.toLowerCase()) &&
+            item.Customer.includes(this.state.Username.toLowerCase())
         );
       else
         search = this.state.data.filter(
           (item) =>
             item.createdAt.slice(0, 10).includes(this.state.date) &&
-            item.ProductName.includes(this.state.Product) &&
-            item.Merchant.includes(this.state.Username)
+            item.ProductName.includes(this.state.Product.toLowerCase()) &&
+            item.Merchant.includes(this.state.Username.toLowerCase())
         );
 
       this.setState({ search: search });
@@ -81,7 +81,7 @@ export default class Search extends Component {
         .then(() => alert("Item Deleted"))
         .catch((err) => alert(err));
       this.setState({
-        exports: this.state.exports.filter((el) => el._id !== id)
+        search: this.state.search.filter((el) => el._id !== id)
       });
     } else {
       axios
@@ -89,7 +89,7 @@ export default class Search extends Component {
         .then(() => alert("Item Deleted"))
         .catch((err) => alert(err));
       this.setState({
-        imports: this.state.imports.filter((el) => el._id !== id)
+        search: this.state.search.filter((el) => el._id !== id)
       });
     }
   };
