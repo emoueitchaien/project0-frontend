@@ -25,6 +25,14 @@ const ExportInfo = (props) => (
       >
         Delete
       </Button>
+      <Button
+        variant="contained"
+        color="secondary"
+        style = {{marginLeft:"10px"}}
+        onClick={() => props.onPrint(props.row._id)}
+      >
+        Add to Print
+      </Button>
     </TableCell>
   </TableRow>
 );
