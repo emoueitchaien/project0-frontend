@@ -1,38 +1,64 @@
 import React, { Component } from "react";
-import {Button} from "@material-ui/core/";
+import { Button } from "@material-ui/core/";
 import {
   Table,
   TableCell,
-  // TableHead,
+  TableHead,
   TableRow,
   TableBody
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
+const ExportInfo = props => (
+  <TableRow>
+    <TableCell>{props.personName}</TableCell>
+    <TableCell>{props.row.ProductName}</TableCell>
+    <TableCell>{props.row.Quantity}</TableCell>
+    <TableCell>{props.row.Rate}</TableCell>
+    <TableCell>{props.row.Total}</TableCell>
+  </TableRow>
+);
+
+const DataTable = props => {
+  return props.data
+    .filter(currentinfo => props.idsToPrint.includes(currentinfo._id))
+    .map(currentinfo => {
+      const userName = props.modeSelection
+        ? currentinfo.Customer
+        : currentinfo.Merchant;
+      const userPno = props.modeSelection
+        ? currentinfo.Customer_Phone_No
+        : currentinfo.Merchant_Phone_No;
+      return (
+        <ExportInfo
+          key={currentinfo._id}
+          row={currentinfo}
+          personName={userName}
+          personPno={userPno}
+        />
+      );
+    });
+};
+
 export class PrintExport extends Component {
   render() {
     const date = new Date();
-    const dateinwords = date.toString().slice(0, 16);
-    const {
-      ProductName,
-      Total,
-      userName,
-      quantity,
-      modeSelection,
-      rate
-    } = this.props.location.state;
+    const dateinwords = date.toString().slice(0, 15);
+    const { data, modeSelection, ids } = this.props.location.state;
+    const idsToPrint = Array.from(ids);
+    // console.log(modeSelection);
     // console.log(ProductName);
-    let Qty = "";
-    if (modeSelection === "1") Qty = `${quantity} KG(s)`;
-    else if (modeSelection === "25") Qty = `${quantity} (25KGs Bag)`;
-    else if (modeSelection === "30") Qty = `${quantity} (30KGs Bag)`;
-    else if (modeSelection === "50") Qty = `${quantity} (50KGs Bag)`;
+    // let Qty = "";
+    // if (modeSelection === "1") Qty = `${quantity} KG(s)`;
+    // else if (modeSelection === "25") Qty = `${quantity} (25KGs Bag)`;
+    // else if (modeSelection === "30") Qty = `${quantity} (30KGs Bag)`;
+    // else if (modeSelection === "50") Qty = `${quantity} (50KGs Bag)`;
     return (
       <React.Fragment>
         <div
           style={{
             position: "relative",
-            width: 400,
+            width: 600,
             textAlign: "center",
             margin: "auto",
             paddingTop: 60
@@ -41,31 +67,28 @@ export class PrintExport extends Component {
           <br />
           <br />
           <Table stickyHeader aria-label="sticky table">
-            <TableBody>
+            <TableHead>
               <TableRow>
-                <TableCell>Date:</TableCell>
                 <TableCell>{dateinwords}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Customer:</TableCell>
-                <TableCell>{userName}</TableCell>
+                <TableCell></TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Product Name:</TableCell>
-                <TableCell>{ProductName}</TableCell>
+                <TableCell>Customer</TableCell>
+                <TableCell>Product Name</TableCell>
+                <TableCell>Quantity</TableCell>
+                <TableCell>Rate</TableCell>
+                <TableCell>Line Total</TableCell>
               </TableRow>
-              <TableRow>
-                <TableCell>Quantity:</TableCell>
-                <TableCell>{Qty}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Rate:</TableCell>
-                <TableCell>{rate}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Total:</TableCell>
-                <TableCell>{Total}</TableCell>
-              </TableRow>
+            </TableHead>
+            <TableBody>
+              <DataTable
+                // key={data._id}
+                data={data}
+                modeSelection={modeSelection}
+                idsToPrint={idsToPrint}
+              />
             </TableBody>
           </Table>
           <br />
@@ -82,7 +105,7 @@ export class PrintExport extends Component {
             &emsp;
             <Button
               component={Link}
-              to={"/exports"}
+              to={"/search"}
               color="primary"
               variant="contained"
             >
