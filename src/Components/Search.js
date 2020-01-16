@@ -25,7 +25,8 @@ export default class Search extends Component {
       data: [],
       date: "",
       modeSelection: 1,
-      idsToPrint: []
+      // idsToPrint: [],
+      ids: new Set()
     };
   }
   componentDidMount() {
@@ -77,7 +78,9 @@ export default class Search extends Component {
 
   onPrint = id => {
     this.setState({
-      idsToPrint: [...this.state.idsToPrint, id]
+      // idsToPrint: [...this.state.idsToPrint, id],
+      ids: new Set([...this.state.ids, id])
+      // idsToPrint: Array.from(this.state.ids)
     });
   };
 
@@ -119,7 +122,7 @@ export default class Search extends Component {
     });
   };
   render() {
-    console.log(this.state.idsToPrint);
+    console.log(this.state.ids);
     const header = this.state.modeSelection ? "Exports" : "Imports";
     const label = this.state.modeSelection ? "Customer Name" : "Merchant Name";
     return (
