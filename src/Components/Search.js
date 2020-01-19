@@ -62,15 +62,23 @@ export default class Search extends Component {
         search = this.state.data.filter(
           item =>
             item.createdAt.slice(0, 10).includes(this.state.date) &&
-            item.ProductName.toLowerCase().includes(this.state.Product.toLowerCase()) &&
-            item.Customer.toLowerCase().includes(this.state.Username.toLowerCase())
+            item.ProductName.toLowerCase().includes(
+              this.state.Product.toLowerCase()
+            ) &&
+            item.Customer.toLowerCase().includes(
+              this.state.Username.toLowerCase()
+            )
         );
       else
         search = this.state.data.filter(
           item =>
             item.createdAt.slice(0, 10).includes(this.state.date) &&
-            item.ProductName.toLowerCase().includes(this.state.Product.toLowerCase()) &&
-            item.Merchant.toLowerCase().includes(this.state.Username.toLowerCase())
+            item.ProductName.toLowerCase().includes(
+              this.state.Product.toLowerCase()
+            ) &&
+            item.Merchant.toLowerCase().includes(
+              this.state.Username.toLowerCase()
+            )
         );
 
       this.setState({ search: search });
@@ -176,7 +184,7 @@ export default class Search extends Component {
           </Button>
           <Button
             variant="contained"
-            style={Styles.button}
+            style={Styles.button2}
             color="secondary"
             component={Link}
             to={{
@@ -221,6 +229,12 @@ const Styles = {
     marginTop: "3%",
     marginLeft: "5%",
     height: 50
+  },
+  button2: {
+    marginTop: "3%",
+    marginLeft: "2%",
+    height: 50,
+    width: 100
   },
   tables: {
     height: "380px"
