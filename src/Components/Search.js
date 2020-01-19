@@ -13,6 +13,7 @@ import {
 import SearchResults from "./SearchResults";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default class Search extends Component {
   constructor(props) {
@@ -24,7 +25,9 @@ export default class Search extends Component {
       search: [],
       data: [],
       date: "",
-      modeSelection: 1
+      modeSelection: 1,
+      // idsToPrint: [],
+      ids: new Set()
     };
   }
   componentDidMount() {
@@ -34,13 +37,13 @@ export default class Search extends Component {
     if (this.state.modeSelection)
       axios
         .get("https://mgmtsys.herokuapp.com/exports/")
-        .then((res) => this.setState({ data: res.data.reverse() }))
-        .catch((err) => console.log(err));
+        .then(res => this.setState({ data: res.data.reverse() }))
+        .catch(err => console.log(err));
     else
       axios
         .get("https://mgmtsys.herokuapp.com/imports/")
-        .then((res) => this.setState({ data: res.data.reverse() }))
-        .catch((err) => console.log(err));
+        .then(res => this.setState({ data: res.data.reverse() }))
+        .catch(err => console.log(err));
   };
 
   onSearch = () => {
@@ -57,14 +60,14 @@ export default class Search extends Component {
       let search = [];
       if (this.state.modeSelection)
         search = this.state.data.filter(
-          (item) =>
+          item =>
             item.createdAt.slice(0, 10).includes(this.state.date) &&
             item.ProductName.toLowerCase().includes(this.state.Product.toLowerCase()) &&
             item.Customer.toLowerCase().includes(this.state.Username.toLowerCase())
         );
       else
         search = this.state.data.filter(
-          (item) =>
+          item =>
             item.createdAt.slice(0, 10).includes(this.state.date) &&
             item.ProductName.toLowerCase().includes(this.state.Product.toLowerCase()) &&
             item.Merchant.toLowerCase().includes(this.state.Username.toLowerCase())
@@ -74,44 +77,53 @@ export default class Search extends Component {
     }
   };
 
+  onPrint = id => {
+    this.setState({
+      // idsToPrint: [...this.state.idsToPrint, id],
+      ids: new Set([...this.state.ids, id])
+      // idsToPrint: Array.from(this.state.ids)
+    });
+  };
+
   onDelete = (id, trigger) => {
     if (trigger) {
       axios
         .delete("https://mgmtsys.herokuapp.com/exports/delete/" + id)
         .then(() => alert("Item Deleted"))
-        .catch((err) => alert(err));
+        .catch(err => alert(err));
       this.setState({
-        search: this.state.search.filter((el) => el._id !== id)
+        search: this.state.search.filter(el => el._id !== id)
       });
     } else {
       axios
         .delete("https://mgmtsys.herokuapp.com/imports/delete/" + id)
         .then(() => alert("Item Deleted"))
-        .catch((err) => alert(err));
+        .catch(err => alert(err));
       this.setState({
-        search: this.state.search.filter((el) => el._id !== id)
+        search: this.state.search.filter(el => el._id !== id)
       });
     }
   };
 
   //handle change Functions
-  handleChangeProducts = (e) => {
+  handleChangeProducts = e => {
     this.setState({ Product: e.target.value });
   };
 
-  handleChangeUsername = (e) => {
+  handleChangeUsername = e => {
     this.setState({ Username: e.target.value });
   };
-  handleChangeMode = (e) => {
+  handleChangeMode = e => {
     this.setState({ modeSelection: e.target.value }, () => this.getData());
     this.setState({ search: [] });
   };
-  onChangeDate = (e) => {
+  onChangeDate = e => {
     this.setState({
       date: e.target.value
     });
   };
   render() {
+    console.log(this.state.ids);
     const header = this.state.modeSelection ? "Exports" : "Imports";
     const label = this.state.modeSelection ? "Customer Name" : "Merchant Name";
     return (
@@ -162,6 +174,18 @@ export default class Search extends Component {
           >
             <SearchIcon />
           </Button>
+          <Button
+            variant="contained"
+            style={Styles.button}
+            color="secondary"
+            component={Link}
+            to={{
+              pathname: "/printExport",
+              state: this.state
+            }}
+          >
+            Print
+          </Button>
         </div>
 
         <div style={Styles.table}>
@@ -173,6 +197,7 @@ export default class Search extends Component {
               mode={this.state.modeSelection}
               data={this.state.search}
               onDelete={this.onDelete}
+              onPrint={this.onPrint}
             />
           </TableContainer>
         </div>
