@@ -9,32 +9,45 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
-const ExportInfo = props => (
+const Transaction = props => (
   <TableRow>
     <TableCell>{props.personName}</TableCell>
     <TableCell>{props.row.ProductName}</TableCell>
-    <TableCell>{props.row.Quantity}</TableCell>
+    <TableCell>{props.Qty}</TableCell>
     <TableCell>{props.row.Rate}</TableCell>
     <TableCell>{props.row.Total}</TableCell>
   </TableRow>
 );
 
-const DataTable = props => {
+const Transactions = props => {
   return props.data
     .filter(currentinfo => props.idsToPrint.includes(currentinfo._id))
     .map(currentinfo => {
+      console.log(currentinfo);
       const userName = props.modeSelection
         ? currentinfo.Customer
         : currentinfo.Merchant;
       const userPno = props.modeSelection
         ? currentinfo.Customer_Phone_No
         : currentinfo.Merchant_Phone_No;
+
+      let Qty = "";
+
+      if (currentinfo.mode === 1) Qty = `${currentinfo.Quantity} KG(s)`;
+      else if (currentinfo.mode === 25)
+        Qty = `${currentinfo.Quantity} (25KGs Bag)`;
+      else if (currentinfo.mode === 30)
+        Qty = `${currentinfo.Quantity} (30KGs Bag)`;
+      else if (currentinfo.mode === 50)
+        Qty = `${currentinfo.Quantity} (50KGs Bag)`;
+
       return (
-        <ExportInfo
+        <Transaction
           key={currentinfo._id}
           row={currentinfo}
           personName={userName}
           personPno={userPno}
+          Qty={Qty}
         />
       );
     });
@@ -52,13 +65,7 @@ export class PrintExport extends Component {
       .forEach(element => {
         subtotal = subtotal + element.Total;
       });
-    console.log(subtotal);
-    // console.log(ProductName);
-    // let Qty = "";
-    // if (modeSelection === "1") Qty = `${quantity} KG(s)`;
-    // else if (modeSelection === "25") Qty = `${quantity} (25KGs Bag)`;
-    // else if (modeSelection === "30") Qty = `${quantity} (30KGs Bag)`;
-    // else if (modeSelection === "50") Qty = `${quantity} (50KGs Bag)`;
+
     return (
       <React.Fragment>
         <div
@@ -89,8 +96,7 @@ export class PrintExport extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              <DataTable
-                // key={data._id}
+              <Transactions
                 data={data}
                 modeSelection={modeSelection}
                 idsToPrint={idsToPrint}
