@@ -26,13 +26,14 @@ export default class Search extends Component {
       data: [],
       date: "",
       modeSelection: 1,
-      // idsToPrint: [],
       ids: new Set()
     };
   }
+
   componentDidMount() {
     this.getData();
   }
+
   getData = () => {
     if (this.state.modeSelection)
       axios
@@ -87,9 +88,7 @@ export default class Search extends Component {
 
   onPrint = id => {
     this.setState({
-      // idsToPrint: [...this.state.idsToPrint, id],
       ids: new Set([...this.state.ids, id])
-      // idsToPrint: Array.from(this.state.ids)
     });
   };
 
@@ -130,6 +129,7 @@ export default class Search extends Component {
       date: e.target.value
     });
   };
+
   render() {
     console.log(this.state.ids);
     const header = this.state.modeSelection ? "Exports" : "Imports";
