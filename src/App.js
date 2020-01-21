@@ -8,6 +8,7 @@ import Search from "./Components/Search";
 import Exports from "./Components/Exports";
 import Appbar from "./Components/Appbar";
 import Imports from "./Components/Imports";
+import PrintExport from "./Components/PrintExport";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/imports" component={Imports} />
         <Route path="/search" component={Search} />
         <Route path="/products" component={Products_info} />
+        <Route path="/printExport" component={PrintExport} />
       </div>
     </Router>
   );
