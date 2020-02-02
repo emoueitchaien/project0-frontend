@@ -38,7 +38,7 @@ const Login = (props) => {
   }
   const handleSubmit = (event) => {
     axios
-      .get("http://localhost:5000/login/")
+      .get("https://mgmtsys.herokuapp.com/login/")
       .then((res) =>{
         check === res.data[0].password
           ? props.setLogin(true)
