@@ -20,7 +20,7 @@ import { Link } from "react-router-dom";
 
 const drawerWidth = 200;
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: "flex"
   },
@@ -79,7 +79,9 @@ export default function Apppbar() {
         classes={{ paper: classes.drawer }}
       >
         <MenuItem onClick={handleDrawer}>
-            <Container className={classes.backButton}><ChevronLeftIcon /></Container>
+          <Container className={classes.backButton}>
+            <ChevronLeftIcon />
+          </Container>
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleDrawer} component={Link} to={"/"}>

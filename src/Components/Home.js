@@ -1,5 +1,5 @@
-import React, { Component} from "react";
-import { CssBaseline } from "@material-ui/core";
+import React, { Component } from "react";
+import { CssBaseline, Button } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import axios from "axios";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     marginTop: theme.spacing(10),
@@ -27,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const StatusList = (props) => {
-  return props.data.map((rate) => {
+const StatusList = props => {
+  return props.data.map(rate => {
     return (
       <TableRow key={rate._id}>
         <TableCell>{rate.ProductName}</TableCell>
@@ -38,8 +38,8 @@ const StatusList = (props) => {
   });
 };
 
-const RateList = (props) => {
-  return props.data.map((rate) => {
+const RateList = props => {
+  return props.data.map(rate => {
     return (
       <TableRow key={rate._id}>
         <TableCell>{rate.ProductName}</TableCell>
@@ -51,8 +51,11 @@ const RateList = (props) => {
     );
   });
 };
-
-const Page = (props) => {
+const handleSubmit = e => {
+  localStorage.removeItem("token");
+  window.location.assign("http://localhost:3000");
+};
+const Page = props => {
   const classes = useStyles();
   return (
     <CssBaseline>
@@ -67,7 +70,7 @@ const Page = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <StatusList data={props.data}/>
+              <StatusList data={props.data} />
             </TableBody>
           </Table>
         </Card>
@@ -84,10 +87,26 @@ const Page = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <RateList data={props.data}/>
+              <RateList data={props.data} />
             </TableBody>
           </Table>
         </Card>
+      </div>
+      <div
+        style={{
+          position: "relative",
+          textAlign: "center",
+          paddingTop: 60
+        }}
+      >
+        <Button
+          variant="contained"
+          style={{ width: "200px" }}
+          color="primary"
+          onClick={handleSubmit}
+        >
+          Log Out
+        </Button>
       </div>
     </CssBaseline>
   );
@@ -101,14 +120,14 @@ class Home extends Component {
     };
   }
   componentDidMount() {
-    axios.get("https://mgmtsys.herokuapp.com/products").then((response) => {
+    axios.get("https://mgmtsys.herokuapp.com/products").then(response => {
       this.setState({
         products: response.data
       });
     });
   }
   render() {
-    return <Page data={this.state.products}/>;
+    return <Page data={this.state.products} />;
   }
 }
 
