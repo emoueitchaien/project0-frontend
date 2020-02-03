@@ -101,18 +101,9 @@ export class PrintExport extends Component {
                 modeSelection={modeSelection}
                 idsToPrint={idsToPrint}
               />
+              <br />
               <TableRow>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Subtotal :</TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
+                <TableCell colSpan="4">Subtotal :</TableCell>
                 <TableCell>{subtotal}</TableCell>
               </TableRow>
             </TableBody>

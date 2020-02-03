@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 //Components Import
@@ -9,9 +9,20 @@ import Exports from "./Components/Exports";
 import Appbar from "./Components/Appbar";
 import Imports from "./Components/Imports";
 import PrintExport from "./Components/PrintExport";
+import Login from "./Components/Login";
 
 function App() {
-  return (
+  const [isLogin, setLogin] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    let loggedIn = true;
+    if (token == null) {
+      loggedIn = false;
+    }
+    setLogin(loggedIn);
+  }, []);
+  return isLogin ? (
     <Router>
       <div className="App">
         <Appbar />
@@ -23,6 +34,8 @@ function App() {
         <Route path="/printExport" component={PrintExport} />
       </div>
     </Router>
+  ) : (
+    <Login isLogin={isLogin} setLogin={setLogin} />
   );
 }
 
