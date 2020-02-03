@@ -53,7 +53,7 @@ const RateList = props => {
 };
 const handleSubmit = e => {
   localStorage.removeItem("token");
-  window.location.assign("http://localhost:3000");
+  window.location.assign("https://mgmtsys2.netlify.com/");
 };
 const Page = props => {
   const classes = useStyles();
