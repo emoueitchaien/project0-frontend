@@ -95,7 +95,7 @@ export class PrintExport extends Component {
                 modeSelection={modeSelection}
                 idsToPrint={idsToPrint}
               />
-              <br/>
+              <br />
               <TableRow>
                 <TableCell colSpan="4">Subtotal :</TableCell>
                 <TableCell>{subtotal}</TableCell>

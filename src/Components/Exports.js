@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { CssBaseline} from "@material-ui/core";
+import { CssBaseline } from "@material-ui/core";
 import axios from "axios";
 
-// import Inputs from "./Inputs";
 import Inputs from "./Inputs";
 
 const classes = {
@@ -24,38 +23,37 @@ class Exports extends Component {
       selectedProduct: [],
       quantity: "",
       rate: 0,
-      modeSelection:""
+      modeSelection: ""
     };
   }
   //handling Data events ------------------------------------------//
   componentDidMount = () => {
-    axios.get("https://mgmtsys.herokuapp.com/products").then((res) => {
+    axios.get("https://mgmtsys.herokuapp.com/products").then(res => {
       this.setState({ products: res.data });
     });
   };
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
 
     const newData = {
       ProductName: this.state.ProductName,
-      Quantity:this.state.quantity,
-      Rate:this.state.rate,
-      mode:this.state.modeSelection,
+      Quantity: this.state.quantity,
+      Rate: this.state.rate,
+      mode: this.state.modeSelection,
       Total: this.state.Total,
       Customer: this.state.userName,
       Customer_Phone_No: this.state.userPno
     };
-    
-    
+
     axios
       .post("https://mgmtsys.herokuapp.com/exports/add", newData)
       .then(() => alert("Data is added!"))
-      .catch((err) => alert(err));
+      .catch(err => alert(err));
 
     let updateAvailable =
       Number(this.state.selectedProduct.Available) -
-      (Number(this.state.quantity)*Number(this.state.modeSelection));
-      
+      Number(this.state.quantity) * Number(this.state.modeSelection);
+
     const updateData = {
       ProductName: this.state.selectedProduct.ProductName,
       PricePerKg: this.state.selectedProduct.PricePerKg,
@@ -83,34 +81,33 @@ class Exports extends Component {
       selectedProduct: [],
       quantity: "",
       rate: 0,
-      modeSelection:""
+      modeSelection: ""
     });
   };
   //handling user input events----------------------------------------//
-  handleProductChange = (event) => {
+  handleProductChange = event => {
     let obj = this.state.products.find(
-      (query) => query.ProductName === event.target.value
+      query => query.ProductName === event.target.value
     );
     this.setState({
       ProductName: event.target.value,
       selectedProduct: obj
     });
   };
-  handleModeChange = (event) => {
+  handleModeChange = event => {
     this.setState(
       {
         modeSelection: event.target.value
       },
       () => {
         let rate = 0;
-        const {modeSelection} = this.state;
-        if(modeSelection === "1")
-          rate = this.state.selectedProduct.PricePerKg;
-        else if(modeSelection === "25")
+        const { modeSelection } = this.state;
+        if (modeSelection === "1") rate = this.state.selectedProduct.PricePerKg;
+        else if (modeSelection === "25")
           rate = this.state.selectedProduct.PricePer25Bag;
-        else if(modeSelection === "30")
+        else if (modeSelection === "30")
           rate = this.state.selectedProduct.PricePer30Bag;
-        else if(modeSelection === "50")
+        else if (modeSelection === "50")
           rate = this.state.selectedProduct.PricePer50Bag;
         this.setState({
           rate: rate
@@ -118,7 +115,7 @@ class Exports extends Component {
       }
     );
   };
-  handleQChange = (event) => {
+  handleQChange = event => {
     this.setState({ quantity: event.target.value }, () => {
       let total = this.state.rate * this.state.quantity;
       this.setState({
@@ -126,7 +123,7 @@ class Exports extends Component {
       });
     });
   };
-  handleChange = (input) => (event) => {
+  handleChange = input => event => {
     this.setState({ [input]: event.target.value });
   };
   render() {
