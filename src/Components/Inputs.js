@@ -5,21 +5,21 @@ import {
   Button,
   FormControl,
   TextField,
-  MenuItem
+  MenuItem,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex"
+    display: "flex",
   },
   position: {
-    marginLeft: theme.spacing(8)
+    marginLeft: theme.spacing(8),
   },
   buttons: {
-    marginTop: theme.spacing(5)
-  }
+    marginTop: theme.spacing(5),
+  },
 }));
 
 const Inputs = (props) => {
@@ -45,9 +45,16 @@ const Inputs = (props) => {
             })}
           </Select>
         </FormControl>
-        <FormControl component="fieldset" className={classes.position} style={{width:150}}>
-        <InputLabel>Options</InputLabel>
-          <Select value={props.state.modeSelection} onChange={props.handleModeChange}>
+        <FormControl
+          component="fieldset"
+          className={classes.position}
+          style={{ width: 150 }}
+        >
+          <InputLabel>Options</InputLabel>
+          <Select
+            value={props.state.modeSelection}
+            onChange={props.handleModeChange}
+          >
             <MenuItem value="1">Per KG</MenuItem>
             <MenuItem value="25">25 KG Bag</MenuItem>
             <MenuItem value="30">30 KG Bag</MenuItem>

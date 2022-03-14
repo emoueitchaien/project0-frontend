@@ -7,28 +7,28 @@ import {
   TableHead,
   TableBody,
   TableCell,
-  TableRow
+  TableRow,
 } from "@material-ui/core";
 import axios from "axios";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     marginTop: theme.spacing(10),
-    marginLeft: theme.spacing(4)
+    marginLeft: theme.spacing(4),
   },
   statusBar: {
-    width: "55%"
+    width: "55%",
   },
   ratesBar: {
     width: "45%",
     marginLeft: theme.spacing(4),
-    marginRight: theme.spacing(4)
-  }
+    marginRight: theme.spacing(4),
+  },
 }));
 
-const StatusList = props => {
-  return props.data.map(rate => {
+const StatusList = (props) => {
+  return props.data.map((rate) => {
     return (
       <TableRow key={rate._id}>
         <TableCell>{rate.ProductName}</TableCell>
@@ -38,8 +38,8 @@ const StatusList = props => {
   });
 };
 
-const RateList = props => {
-  return props.data.map(rate => {
+const RateList = (props) => {
+  return props.data.map((rate) => {
     return (
       <TableRow key={rate._id}>
         <TableCell>{rate.ProductName}</TableCell>
@@ -51,11 +51,11 @@ const RateList = props => {
     );
   });
 };
-const handleSubmit = e => {
+const handleSubmit = (e) => {
   localStorage.removeItem("token");
-  window.location.assign("https://mgmtsys.netlify.com/");
+  window.location.assign("https://mill-system.netlify.com/");
 };
-const Page = props => {
+const Page = (props) => {
   const classes = useStyles();
   return (
     <CssBaseline>
@@ -96,7 +96,7 @@ const Page = props => {
         style={{
           position: "relative",
           textAlign: "center",
-          paddingTop: 60
+          paddingTop: 60,
         }}
       >
         <Button
@@ -116,13 +116,13 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      products: []
+      products: [],
     };
   }
   componentDidMount() {
-    axios.get("https://mgmtsys.herokuapp.com/products").then(response => {
+    axios.get("https://mill-system.herokuapp.com/products").then((response) => {
       this.setState({
-        products: response.data
+        products: response.data,
       });
     });
   }

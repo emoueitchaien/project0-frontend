@@ -8,7 +8,7 @@ import {
   MenuItem,
   Select,
   InputLabel,
-  FormControl
+  FormControl,
 } from "@material-ui/core";
 import SearchResults from "./SearchResults";
 import SearchIcon from "@material-ui/icons/Search";
@@ -26,7 +26,7 @@ export default class Search extends Component {
       data: [],
       date: "",
       modeSelection: 1,
-      ids: new Set()
+      ids: new Set(),
     };
   }
 
@@ -37,14 +37,14 @@ export default class Search extends Component {
   getData = () => {
     if (this.state.modeSelection)
       axios
-        .get("https://mgmtsys.herokuapp.com/exports/")
-        .then(res => this.setState({ data: res.data.reverse() }))
-        .catch(err => console.log(err));
+        .get("https://mill-system.herokuapp.com/exports/")
+        .then((res) => this.setState({ data: res.data.reverse() }))
+        .catch((err) => console.log(err));
     else
       axios
-        .get("https://mgmtsys.herokuapp.com/imports/")
-        .then(res => this.setState({ data: res.data.reverse() }))
-        .catch(err => console.log(err));
+        .get("https://mill-system.herokuapp.com/imports/")
+        .then((res) => this.setState({ data: res.data.reverse() }))
+        .catch((err) => console.log(err));
   };
 
   onSearch = () => {
@@ -55,13 +55,13 @@ export default class Search extends Component {
     ) {
       alert("All Data are displayed!");
       this.setState({
-        search: this.state.data
+        search: this.state.data,
       });
     } else {
       let search = [];
       if (this.state.modeSelection)
         search = this.state.data.filter(
-          item =>
+          (item) =>
             item.createdAt.slice(0, 10).includes(this.state.date) &&
             item.ProductName.toLowerCase().includes(
               this.state.Product.toLowerCase()
@@ -72,7 +72,7 @@ export default class Search extends Component {
         );
       else
         search = this.state.data.filter(
-          item =>
+          (item) =>
             item.createdAt.slice(0, 10).includes(this.state.date) &&
             item.ProductName.toLowerCase().includes(
               this.state.Product.toLowerCase()
@@ -86,47 +86,47 @@ export default class Search extends Component {
     }
   };
 
-  onPrint = id => {
+  onPrint = (id) => {
     this.setState({
-      ids: new Set([...this.state.ids, id])
+      ids: new Set([...this.state.ids, id]),
     });
   };
 
   onDelete = (id, trigger) => {
     if (trigger) {
       axios
-        .delete("https://mgmtsys.herokuapp.com/exports/delete/" + id)
+        .delete("https://mill-system.herokuapp.com/exports/delete/" + id)
         .then(() => alert("Item Deleted"))
-        .catch(err => alert(err));
+        .catch((err) => alert(err));
       this.setState({
-        search: this.state.search.filter(el => el._id !== id)
+        search: this.state.search.filter((el) => el._id !== id),
       });
     } else {
       axios
-        .delete("https://mgmtsys.herokuapp.com/imports/delete/" + id)
+        .delete("https://mill-system.herokuapp.com/imports/delete/" + id)
         .then(() => alert("Item Deleted"))
-        .catch(err => alert(err));
+        .catch((err) => alert(err));
       this.setState({
-        search: this.state.search.filter(el => el._id !== id)
+        search: this.state.search.filter((el) => el._id !== id),
       });
     }
   };
 
   //handle change Functions
-  handleChangeProducts = e => {
+  handleChangeProducts = (e) => {
     this.setState({ Product: e.target.value });
   };
 
-  handleChangeUsername = e => {
+  handleChangeUsername = (e) => {
     this.setState({ Username: e.target.value });
   };
-  handleChangeMode = e => {
+  handleChangeMode = (e) => {
     this.setState({ modeSelection: e.target.value }, () => this.getData());
     this.setState({ search: [] });
   };
-  onChangeDate = e => {
+  onChangeDate = (e) => {
     this.setState({
-      date: e.target.value
+      date: e.target.value,
     });
   };
 
@@ -146,7 +146,7 @@ export default class Search extends Component {
             onChange={this.onChangeDate}
             defaultValue={this.state.date}
             InputLabelProps={{
-              shrink: true
+              shrink: true,
             }}
           />
           <TextField
@@ -189,7 +189,7 @@ export default class Search extends Component {
             component={Link}
             to={{
               pathname: "/printExport",
-              state: this.state
+              state: this.state,
             }}
           >
             Print
@@ -218,28 +218,28 @@ const Styles = {
   inputfiled: {
     marginTop: "6%",
     marginLeft: "5%",
-    marginBottom: "2%"
+    marginBottom: "2%",
   },
   inputfileds: {
     marginTop: "3%",
     marginLeft: "3%",
-    marginBottom: "2%"
+    marginBottom: "2%",
   },
   button: {
     marginTop: "3%",
     marginLeft: "5%",
-    height: 50
+    height: 50,
   },
   button2: {
     marginTop: "3%",
     marginLeft: "2%",
     height: 50,
-    width: 100
+    width: 100,
   },
   tables: {
-    height: "380px"
+    height: "380px",
   },
   table: {
-    marginLeft: "3%"
-  }
+    marginLeft: "3%",
+  },
 };

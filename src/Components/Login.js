@@ -4,7 +4,7 @@ import {
   Paper,
   makeStyles,
   Typography,
-  Button
+  Button,
 } from "@material-ui/core";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
@@ -16,18 +16,18 @@ const styles = makeStyles({
     flexDirection: "column",
     height: "99.5vh",
     width: "99.9vw",
-    backgroundColor: "#a8ab6c"
+    backgroundColor: "#a8ab6c",
   },
   input: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   button: {
-    marginTop: "2rem"
-  }
+    marginTop: "2rem",
+  },
 });
 
-const Login = props => {
+const Login = (props) => {
   const [isLogin, setLogin] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -40,23 +40,23 @@ const Login = props => {
   const classes = styles();
   const [check, setCheck] = useState("");
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setCheck(event.target.value);
   };
   const misMatch = () => {
     alert("Wrong Password!!");
     setCheck("");
   };
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     axios
-      .get("https://mgmtsys.herokuapp.com/login/")
-      .then(res => {
+      .get("https://mill-system.herokuapp.com/login/")
+      .then((res) => {
         if (check === res.data[0].password) {
           localStorage.setItem("token", "anyrandomstring");
           props.setLogin(true);
         } else misMatch();
       })
-      .catch(err => alert(err));
+      .catch((err) => alert(err));
   };
   if (isLogin) {
     return <Redirect to="/" />;

@@ -17,24 +17,24 @@ export default class Products_info extends Component {
       Available25Bag: 0,
       Available30Bag: 0,
       Available50Bag: 0,
-      ProductsTable: []
+      ProductsTable: [],
     };
   }
 
   componentDidMount() {
     axios
-      .get("https://mgmtsys.herokuapp.com/products/")
-      .then(res => this.setState({ ProductsTable: res.data }))
-      .catch(err => console.log(err));
+      .get("https://mill-system.herokuapp.com/products/")
+      .then((res) => this.setState({ ProductsTable: res.data }))
+      .catch((err) => console.log(err));
   }
 
-  onDelete = id => {
+  onDelete = (id) => {
     axios
-      .delete("https://mgmtsys.herokuapp.com/products/delete/" + id)
+      .delete("https://mill-system.herokuapp.com/products/delete/" + id)
       .then(() => alert("Item Deleted"))
-      .catch(err => alert(err));
+      .catch((err) => alert(err));
     this.setState({
-      ProductsTable: this.state.ProductsTable.filter(el => el._id !== id)
+      ProductsTable: this.state.ProductsTable.filter((el) => el._id !== id),
     });
   };
 
@@ -48,17 +48,17 @@ export default class Products_info extends Component {
       Available: this.state.Available,
       Available25Bag: this.state.Available25Bag,
       Available30Bag: this.state.Available30Bag,
-      Available50Bag: this.state.Available50Bag
+      Available50Bag: this.state.Available50Bag,
     };
     axios
-      .post("https://mgmtsys.herokuapp.com/products/add", Products)
+      .post("https://mill-system.herokuapp.com/products/add", Products)
       .then(() => {
         axios
-          .get("https://mgmtsys.herokuapp.com/products/")
-          .then(res => this.setState({ ProductsTable: res.data }))
-          .catch(err => alert(err));
+          .get("https://mill-system.herokuapp.com/products/")
+          .then((res) => this.setState({ ProductsTable: res.data }))
+          .catch((err) => alert(err));
       })
-      .catch(err => alert("Error::" + err));
+      .catch((err) => alert("Error::" + err));
 
     this.handleReset();
   };
@@ -72,14 +72,14 @@ export default class Products_info extends Component {
       Available: 0,
       Available25Bag: 0,
       Available30Bag: 0,
-      Available50Bag: 0
+      Available50Bag: 0,
     });
     axios
-      .get("https://mgmtsys.herokuapp.com/products/")
-      .then(res => this.setState({ ProductsTable: res.data }))
-      .catch(err => console.log(err));
+      .get("https://mill-system.herokuapp.com/products/")
+      .then((res) => this.setState({ ProductsTable: res.data }))
+      .catch((err) => console.log(err));
   };
-  handleChange = input => e => {
+  handleChange = (input) => (e) => {
     this.setState({ [input]: e.target.value });
   };
 
@@ -105,6 +105,6 @@ export default class Products_info extends Component {
 const Styles = {
   table: {
     marginLeft: "4%",
-    marginTop: "4%"
-  }
+    marginTop: "4%",
+  },
 };

@@ -4,11 +4,11 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  TableBody
+  TableBody,
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 
-const ExportInfo = props => (
+const ExportInfo = (props) => (
   <TableRow>
     <TableCell>{props.row.createdAt.slice(0, 10)}</TableCell>
     <TableCell>{props.row.ProductName}</TableCell>
@@ -37,8 +37,8 @@ const ExportInfo = props => (
   </TableRow>
 );
 
-const DataTable = props => {
-  return props.data.map(currentinfo => {
+const DataTable = (props) => {
+  return props.data.map((currentinfo) => {
     const userName = props.mode ? currentinfo.Customer : currentinfo.Merchant;
     const userPno = props.mode
       ? currentinfo.Customer_Phone_No

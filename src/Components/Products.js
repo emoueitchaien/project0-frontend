@@ -2,20 +2,20 @@ import React from "react";
 import { TextField, Button, CssBaseline } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     marginTop: theme.spacing(5),
-    marginLeft: theme.spacing(4)
+    marginLeft: theme.spacing(4),
   },
   position: {
     marginTop: theme.spacing(13),
     marginLeft: theme.spacing(5),
-    marginBottom: theme.spacing(1)
+    marginBottom: theme.spacing(1),
   },
   input: {
-    marginRight: theme.spacing(3)
-  }
+    marginRight: theme.spacing(3),
+  },
 }));
 
 export default function Products(props) {
@@ -80,7 +80,7 @@ export default function Products(props) {
           onChange={props.handleChange("Available")}
           className={classes.input}
         />
-        
+
         <Button
           variant="contained"
           color="primary"

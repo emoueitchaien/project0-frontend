@@ -5,11 +5,11 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  TableBody
+  TableBody,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
-const Transaction = props => (
+const Transaction = (props) => (
   <TableRow>
     <TableCell>{props.personName}</TableCell>
     <TableCell>{props.row.ProductName}</TableCell>
@@ -19,10 +19,10 @@ const Transaction = props => (
   </TableRow>
 );
 
-const Transactions = props => {
+const Transactions = (props) => {
   return props.data
-    .filter(currentinfo => props.idsToPrint.includes(currentinfo._id))
-    .map(currentinfo => {
+    .filter((currentinfo) => props.idsToPrint.includes(currentinfo._id))
+    .map((currentinfo) => {
       console.log(currentinfo);
       const userName = props.modeSelection
         ? currentinfo.Customer
@@ -61,8 +61,8 @@ export class PrintExport extends Component {
     const idsToPrint = Array.from(ids);
     let subtotal = 0;
     data
-      .filter(currentinfo => idsToPrint.includes(currentinfo._id))
-      .forEach(element => {
+      .filter((currentinfo) => idsToPrint.includes(currentinfo._id))
+      .forEach((element) => {
         subtotal = subtotal + element.Total;
       });
 
@@ -74,7 +74,7 @@ export class PrintExport extends Component {
             width: 600,
             textAlign: "center",
             margin: "auto",
-            paddingTop: 60
+            paddingTop: 60,
           }}
         >
           <br />

@@ -20,30 +20,30 @@ import { Link } from "react-router-dom";
 
 const drawerWidth = 200;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex"
+    display: "flex",
   },
 
   menuButton: {
-    marginRight: 36
+    marginRight: 36,
   },
   hide: {
-    display: "none"
+    display: "none",
   },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-    whiteSpace: "nowrap"
+    whiteSpace: "nowrap",
   },
   iconSpacing: {
     display: "flex",
-    marginLeft: theme.spacing(3)
+    marginLeft: theme.spacing(3),
   },
   backButton: {
     display: "flex",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 }));
 
 export default function Apppbar() {
