@@ -8,8 +8,8 @@ import Inputs from "./Inputs";
 const classes = {
   root: {
     marginTop: 80,
-    marginLeft: 60
-  }
+    marginLeft: 60,
+  },
 };
 
 class Exports extends Component {
@@ -24,7 +24,7 @@ class Exports extends Component {
       selectedProduct: [],
       quantity: "",
       rate: 0,
-      modeSelection: ""
+      modeSelection: "",
     };
   }
   //handling Data events ------------------------------------------//
@@ -43,7 +43,7 @@ class Exports extends Component {
       mode: this.state.modeSelection,
       Total: this.state.Total,
       Merchant: this.state.userName,
-      Merchant_Phone_No: this.state.userPno
+      Merchant_Phone_No: this.state.userPno,
     };
     axios
       .post("https://mgmtsys.herokuapp.com/imports/add", newData)
@@ -52,7 +52,7 @@ class Exports extends Component {
 
     let updateAvailable =
       Number(this.state.selectedProduct.Available) +
-      (Number(this.state.quantity) * Number(this.state.modeSelection));
+      Number(this.state.quantity) * Number(this.state.modeSelection);
 
     const updateData = {
       ProductName: this.state.selectedProduct.ProductName,
@@ -60,7 +60,7 @@ class Exports extends Component {
       PricePer25Bag: this.state.selectedProduct.PricePer25Bag,
       PricePer30Bag: this.state.selectedProduct.PricePer30Bag,
       PricePer50Bag: this.state.selectedProduct.PricePer50Bag,
-      Available: updateAvailable
+      Available: updateAvailable,
     };
     axios
       .put(
@@ -81,7 +81,7 @@ class Exports extends Component {
       selectedProduct: [],
       quantity: "",
       rate: 0,
-      modeSelection: ""
+      modeSelection: "",
     });
   };
   //handling user input events----------------------------------------//
@@ -91,13 +91,13 @@ class Exports extends Component {
     );
     this.setState({
       ProductName: event.target.value,
-      selectedProduct: obj
+      selectedProduct: obj,
     });
   };
   handleModeChange = (event) => {
     this.setState(
       {
-        modeSelection: event.target.value
+        modeSelection: event.target.value,
       },
       () => {
         let rate = 0;
@@ -110,7 +110,7 @@ class Exports extends Component {
         else if (modeSelection === "50")
           rate = this.state.selectedProduct.PricePer50Bag;
         this.setState({
-          rate: rate
+          rate: rate,
         });
       }
     );
@@ -119,7 +119,7 @@ class Exports extends Component {
     this.setState({ quantity: event.target.value }, () => {
       let total = this.state.rate * this.state.quantity;
       this.setState({
-        Total: total
+        Total: total,
       });
     });
   };
