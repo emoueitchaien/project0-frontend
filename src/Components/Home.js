@@ -53,7 +53,7 @@ const RateList = (props) => {
 };
 const handleSubmit = (e) => {
   localStorage.removeItem("token");
-  window.location.assign("https://mill-system.netlify.com/");
+  window.location.assign("https://rmsys.netlify.com/");
 };
 const Page = (props) => {
   const classes = useStyles();
